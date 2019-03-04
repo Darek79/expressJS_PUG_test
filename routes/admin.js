@@ -1,22 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const products = [];
+const prodCont = require('../controllers/products');
+// const products = [];
 
-router.get('/add-product', (req, res, next) => {
-    res.render('add-product',{pageTitle: 'Products',path: '/admin/add-product'})
-    // res.send(`<h1>iam here</h1>`)
-  
-})
+router.get('/add-product', prodCont.getAddProduct);
 
-router.post('/add-product', (req, res, next) => {
-    products.push({title: req.body.title});
-    res.redirect('/');
-    // res.send(`<h1>complete</h1>`)
-    // res.sendFile(path.join(__dirname,'../','views','add-product.html'))
-    
-})
+router.post('/add-product', prodCont.postAddProduct);
 
 
-exports.routes = router;
-exports.products = products;
+module.exports = router;

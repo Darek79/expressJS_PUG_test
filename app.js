@@ -16,7 +16,7 @@ app.use(helmet());
 app.use(express.static(path.join(__dirname+'/public')));
 
 
-app.use('/admin',admin.routes);
+app.use('/admin',admin);
 app.use(shop);
 
 app.use((req,res)=>{
