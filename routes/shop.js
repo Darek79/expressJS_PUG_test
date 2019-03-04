@@ -7,6 +7,4 @@ const prodCont = require('../controllers/products');
 
 router.get('/', prodCont.shopData);
 
-// adminData = [];
-
 module.exports = router;
