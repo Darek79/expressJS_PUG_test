@@ -1,45 +1,63 @@
 const fs = require('fs');
 const path = require('path');
-const p = path.join(path.resolve('data'),'items.json');
+const p = path.join(path.resolve('data'), 'items.json');
+
 
 
 module.exports = class Product {
     constructor(t) {
         this.title = t;
-        
+
     }
 
-    static fetchAll() {
-        return new Promise((res,rej)=>{
-            fs.readFile(p,'utf8',(err,data)=>{
-                if(err){
-                    
-                    throw err;
-                } else if (data === ''){
-                    return res([]);
-                } else {
-                    return res(JSON.parse(data));
-                };
-            });
-        });
+     save() {
+       
+            fs.readFile(p, (err, data) => {
+                let items = [];
+                if(data.length === 0 ){
+                    items.push(this);
+                   return fs.writeFile(p, JSON.stringify(items),err =>{
+                    console.log(err);
+                });
+                } else if (!err || data.length > 0){
+                    items = JSON.parse(data);
+                }
+                
+                items.push(this);
+                fs.writeFile(p, JSON.stringify(items),err =>{
+                    console.log(err);
+                });
+            })
+        
+
+         
     };
 
-    save() {
-        const items = [];
-        Product.fetchAll().then(data=>{
-            items = data;
-            items.push(this);
-            fs.writeFile(p,JSON.stringify(items),err=>{
-            if(err) throw err})
-        })
 
+    static fetchAll(cb) {
+   
+         fs.readFile(p,'utf8', (err, data) => {
+            if (err) {
+                cb([]);
+            } else if(data === ''){
+                cb([]);   
+            }else {
+                cb(JSON.parse(data));
+            }
+           
+        })
     }
 
-    
-    
-     
 
-  
+
+
+
+
+
+
+
+
+
+
+
 }
-
-
